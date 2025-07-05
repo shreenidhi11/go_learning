@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -58,11 +59,14 @@ func main()  {
 	// create the fiber object
 	app := fiber.New()
 
+	// Enable CORS for all origins
+	app.Use(cors.New())
+
 	// creating all the endpoints
-	app.Get("api/todos", getTodos)
-	app.Post("api/todos", createTodos)
-	app.Patch("api/todos/:id", updateTodos)
-	app.Delete("api/todos/:id", deleteTodos)
+	app.Get("/api/todos", getTodos)
+	app.Post("/api/todos", createTodos)
+	app.Patch("/api/todos/:id", updateTodos)
+	app.Delete("/api/todos/:id", deleteTodos)
 
 	// set the port
 	port := os.Getenv("PORT")
